@@ -13,6 +13,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     license_number = models.CharField(max_length=20, null=True), 
     age = models.IntegerField(max_length=3, null=True),
+    # user_role = models.ForeignKey(Roles, null=True),
     # tenant_information = models.ForeignKey(TenantInformation, null=True),
     # property_number = models.ForeignKey(Property, null=True)
     
