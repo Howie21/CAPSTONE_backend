@@ -23,7 +23,7 @@ namespace eCommerceStarterCode.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var tenant = _context.TenantsInfo.Include(tn => tn.Lease).Include(tn => tn.Property).Include(tn => tn.Property.Address);
+            var tenant = _context.TenantsInfo.Include(tn => tn.User).Include(tn => tn.Lease).Include(tn => tn.Property).Include(tn => tn.Property.Address);
             return Ok(tenant);
         }
 
@@ -31,7 +31,7 @@ namespace eCommerceStarterCode.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var tenant = _context.TenantsInfo.Where(tn => tn.Id == id).Include(tn => tn.Lease).Include(tn => tn.Property).Include(tn => tn.Property.Address).SingleOrDefault();
+            var tenant = _context.TenantsInfo.Where(tn => tn.Id == id).Include(tn => tn.User).Include(tn => tn.Lease).Include(tn => tn.Property).Include(tn => tn.Property.Address).SingleOrDefault();
             return Ok(tenant);
         }
 
