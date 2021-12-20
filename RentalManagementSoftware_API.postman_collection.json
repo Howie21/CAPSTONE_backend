@@ -1,0 +1,615 @@
+{
+	"info": {
+		"_postman_id": "e7076a16-394e-471e-b3d3-ef3a53896510",
+		"name": "RentalManagementSoftware_API",
+		"description": "**All Postman Routes for the Rental Management Software API  \n**\n\nTo understand the Order of the calls, You need to first recognize the Single responsibility Tables and the Junction tables.\n\n**Single Use Tables** --- *No Foreign Keys*\n\n1.  **Address Controller Routes -** Folder contains the tested and functional Routes for this Table\n    1.  The Address Table is meant to store a:\n        1.  \"BuildingNumber\"\n        2.  \"Street\"\n        3.  \"City\"\n        4.  \"State\"\n        5.  \"ZipCode\"\n    2.  All Of these can be seen within the Postman Collection inside the folder mentioned before.  \n          \n        \n2.  **Leases Controller Routes** - Folder contains the tested and functional Routes for this Table\n    1.  The Leases Table is meant to store a:\n        1.  \"LeaseNumber\"\n        2.  \"StartDate\"\n        3.  \"EndDate\"\n        4.  \"SafetyDeposit\"\n    2.  All Of these can be seen within the Postman Collection inside the folder mentioned before.  \n          \n        \n\n**Junction Tables** --- *One or more Foreign Keys*\n\n1.  **TenantInfo Controller Routes** - Folder contains the tested and functional Routes for this Table\n    1.  FK => User Table (User Id)\n    2.  FK => Property Table (Property Id)\n    3.  FK => Lease Table (Lease Id)\n    4.  All Of these can be seen once:\n        1.  a User exist,\n        2.  A Address Has been created\n            1.  and a Property Created with a AddressId Provided to the Property Creation (view within the Properties Folder POST Method),\n            2.  and a Lease is created.\n        3.  Then run the POST within the TenantInfo Controller Folder. Then write down the ID that comes back with the object and\n            1.  run the **GetBy-Id** placing the ID number you wrote down at the end of the call URL  \n                  \n                \n2.  **Properties Controller Routes** - Folder contains the tested and functional Routes for this Table\n    1.  FK => Address Table (Address Id)\n    2.  This can be seen once:\n        1.  A Address Object exist\n        2.  Run the PostNew-Object found with the previously mentioned Folder, Passing the ID retrieved from the PostNew-Object POST method found with AddressControllerRoutes Folder",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register_User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"Wesley\",\r\n    \"lastname\": \"Howard\",\r\n    \"username\": \"whoward21\",\r\n    \"password\": \"IFyoutryagain6!\",\r\n    \"email\": \"bryce9643@gmail.com\",\r\n    \"phonenumber\": \"540-497-4047\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44394/api/authentication",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"authentication"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login_User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"whoward21\",\r\n    \"password\": \"IFyoutryagain6!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44394/api/authentication/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"authentication",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Examples",
+			"item": [
+				{
+					"name": "Get_Current_User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Indob3dhcmQyMSIsImVtYWlsIjoiYnJ5Y2U5NjQzQGdtYWlsLmNvbSIsImlkIjoiM2U0ZGVkZGMtNGFkMi00ZDJlLTg0NTAtYTM3MjBlZmVmZWFiIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImV4cCI6MTY0MDAzNTcxMSwiaXNzIjoiZUNvbW1lcmNlV2ViQVBJIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSJ9.f_U9838puQJybsD7SQMuwReHzKaGr4KmCxC6fYnqw98",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:44394/api/examples/user?",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"examples",
+								"user"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TenantInfo Controller Routes",
+			"item": [
+				{
+					"name": "GetAll-Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44394/api/tenantsinfo",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"tenantsinfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBy-Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44394/api/tenantsinfo/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"tenantsinfo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostNew-Object",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"TenantId\": \"3e4deddc-4ad2-4d2e-8450-a3720efefeab\",\r\n    \"RentDueDate\": \"1st of the Month\",\r\n    \"RentAmount\": \"$500\",\r\n    \"LicenseNumber\": \"KY H14-234-5678\",\r\n    \"Age\": 27,\r\n    \"PropertyId\": 1,\r\n    \"LeaseId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44394/api/tenantsinfo",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"tenantsinfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put-UpdateObject",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": 1,\r\n    \"TenantId\": \"3e4deddc-4ad2-4d2e-8450-a3720efefeab\",\r\n    \"RentDueDate\": \"1st of the Month\",\r\n    \"RentAmount\": \"$500\",\r\n    \"LicenseNumber\": \"KY H14-234-5678\",\r\n    \"Age\": 25,\r\n    \"PropertyId\": 1,\r\n    \"LeaseId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44394/api/tenantsinfo",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"tenantsinfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteObjectBy-Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44394/api/tenantsinfo/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"tenantsinfo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Properties Controller Routes",
+			"item": [
+				{
+					"name": "GetAll-Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44394/api/properties",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBy-Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44394/api/properties/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"properties",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostNew-Object",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"AddressId\": 1,\r\n    \"Bathrooms\": \"2\",\r\n    \"Bedrooms\": \"3\",\r\n    \"SquareFeet\": \"1350\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44394/api/properties",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put-UpdateObject",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"addressId\": 1,\r\n    \"bathrooms\": \"2\",\r\n    \"bedrooms\": \"3\",\r\n    \"squareFeet\": \"1350\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44394/api/properties",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteObjectBy-Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44394/api/properties/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"properties",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leases Controller Routes",
+			"item": [
+				{
+					"name": "GetAll-Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44394/api/leases",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"leases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBy-Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44394/api/leases/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"leases",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostNew-Object",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"LeaseNumber\": \"H14-13-6432\",\r\n    \"StartDate\": \"12/15/2021\",\r\n    \"EndDate\": \"6/15/2022\",\r\n    \"SafetyDeposit\": \"$500\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44394/api/leases",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"leases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put-UpdateObject",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"leaseNumber\": \"H14-13-6432\",\r\n    \"startDate\": \"12/15/2021\",\r\n    \"endDate\": \"6/15/2022\",\r\n    \"safetyDeposit\": \"$450\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44394/api/leases",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"leases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteObjectBy-Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44394/api/leases/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"leases",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Address Controller Routes",
+			"item": [
+				{
+					"name": "GetAll-Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44394/api/address",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetBy-Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44394/api/address/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"address",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostNew-Object",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"BuildingNumber\": \"5225\",\r\n    \"Street\": \"US Route 60\",\r\n    \"City\": \"Morehead\",\r\n    \"State\": \"KY\",\r\n    \"ZipCode\": \"40351\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44394/api/address",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Put-UpdateObject",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"buildingNumber\": \"5225\",\r\n    \"street\": \"US Route 60\",\r\n    \"city\": \"Morehead\",\r\n    \"state\": \"KY\",\r\n    \"zipCode\": \"40351\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44394/api/address",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteObjectBy-Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44394/api/address/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44394",
+							"path": [
+								"api",
+								"address",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
