@@ -1,43 +1,67 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using eCommerceStarterCode.Data;
+using eCommerceStarterCode.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace eCommerceStarterCode.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/address")]
     [ApiController]
     public class AddressController : ControllerBase
     {
-        // GET: api/<AddressController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+        private readonly ApplicationDbContext _context;
+        public AddressController(ApplicationDbContext context)
         {
-            return new string[] { "value1", "value2" };
+            _context = context;
         }
 
-        // GET api/<AddressController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET: api/address
+        [HttpGet]
+        public IActionResult Get()
         {
-            return "value";
+            var AddressBook = _context.Addresses;
+            return Ok(AddressBook);
+        }
+
+        // GET api/address/5
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var Address = _context.Addresses.Where(ad => ad.Id == id);
+            return Ok(Address);
         }
 
         // POST api/<AddressController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] Address value)
         {
+            _context.Addresses.Add(value);
+            _context.SaveChanges();
+            return StatusCode(201, value);
         }
 
         // PUT api/<AddressController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public IActionResult Put([FromBody] Address value)
         {
+            _context.Addresses.Update(value);
+            _context.SaveChanges();
+            return Ok(value);
         }
 
         // DELETE api/<AddressController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var Address = _context.Addresses.Where(ad => ad.Id == id).SingleOrDefault();
+            _context.Addresses.Remove(Address);
+            _context.SaveChanges();
+            return StatusCode(200, Address);
         }
     }
 }
