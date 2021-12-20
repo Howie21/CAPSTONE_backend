@@ -24,7 +24,7 @@ namespace eCommerceStarterCode.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var properties = _context.Properties;
+            var properties = _context.Properties.Include(p => p.Address);
             return Ok(properties);
         }
 
@@ -32,7 +32,7 @@ namespace eCommerceStarterCode.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var property = _context.Properties.Where(p => p.Id == id).SingleOrDefault();
+            var property = _context.Properties.Where(p => p.Id == id).Include(p => p.Address).SingleOrDefault();
             return Ok(property);
         }
 
