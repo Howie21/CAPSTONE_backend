@@ -1,43 +1,67 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using eCommerceStarterCode.Data;
+using eCommerceStarterCode.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace eCommerceStarterCode.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/leases")]
     [ApiController]
     public class LeasesController : ControllerBase
     {
+
+        private readonly ApplicationDbContext _context;
+        public LeasesController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         // GET: api/<LeasesController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            var Leases = _context.Leases;
+            return Ok(Leases);
         }
 
         // GET api/<LeasesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var Lease = _context.Leases.Where(l => l.Id == id);
+            return Ok(Lease);
         }
 
         // POST api/<LeasesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] Lease value)
         {
+            _context.Leases.Add(value);
+            _context.SaveChanges();
+            return StatusCode(201, value);
         }
 
         // PUT api/<LeasesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public IActionResult Put([FromBody] Lease value)
         {
+            _context.Leases.Update(value);
+            _context.SaveChanges();
+            return Ok(value);
         }
 
         // DELETE api/<LeasesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var Lease = _context.Leases.Where(l => l.Id == id).SingleOrDefault();
+            _context.Leases.Remove(Lease);
+            _context.SaveChanges();
+            return StatusCode(200, Lease);
         }
     }
 }
