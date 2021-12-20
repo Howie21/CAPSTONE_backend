@@ -32,7 +32,7 @@ namespace eCommerceStarterCode.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var Lease = _context.Leases.Where(l => l.Id == id);
+            var Lease = _context.Leases.Where(l => l.Id == id).SingleOrDefault();
             return Ok(Lease);
         }
 
