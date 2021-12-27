@@ -12,7 +12,7 @@
 
 # Ignore these files
 ApplicationDbContextModelSnapshot.cs
-ApplicationDbContext.cs
+
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)
