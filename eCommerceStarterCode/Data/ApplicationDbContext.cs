@@ -17,6 +17,7 @@ namespace eCommerceStarterCode.Data
         public DbSet<Lease> Leases { get; set; }
         public DbSet<Property> Properties { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
