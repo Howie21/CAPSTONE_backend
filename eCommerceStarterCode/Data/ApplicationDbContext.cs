@@ -18,6 +18,7 @@ namespace eCommerceStarterCode.Data
         public DbSet<Property> Properties { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<WorkOrder> WorkOrders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

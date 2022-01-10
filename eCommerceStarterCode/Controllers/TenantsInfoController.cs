@@ -29,9 +29,9 @@ namespace eCommerceStarterCode.Controllers
 
         // GET api/<TenantsInfoController>/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(string id)
         {
-            var tenant = _context.TenantsInfo.Where(tn => tn.Id == id).Include(tn => tn.User).Include(tn => tn.Lease).Include(tn => tn.Property).Include(tn => tn.Property.Address).SingleOrDefault();
+            var tenant = _context.TenantsInfo.Where(tn => tn.TenantId == id).Include(tn => tn.User).Include(tn => tn.Lease).Include(tn => tn.Property).Include(tn => tn.Property.Address).SingleOrDefault();
             return Ok(tenant);
         }
 
