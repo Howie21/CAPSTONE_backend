@@ -33,8 +33,16 @@ namespace eCommerceStarterCode.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
-            var workOrder = _context.WorkOrders.Where(wo => wo.RequestorId == id).Include(wo => wo.User).Include(wo => wo.Property).Include(wo => wo.Property.Address).FirstOrDefault();
-            return Ok(workOrder);
+            var workOrder = _context.WorkOrders.Where(wo => wo.RequestorId == id).Include(wo => wo.User).Include(wo => wo.Property).Include(wo => wo.Property.Address);
+            int size = workOrder.Count();
+            if (size > 0)
+            {
+                return Ok(workOrder);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         // POST api/<ValuesController>
